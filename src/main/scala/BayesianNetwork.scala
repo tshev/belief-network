@@ -28,8 +28,8 @@ class BayesianNetwork {
       this.nodes.apply(i)
     }
 
-    def extend(bitMaps: ArrayBuffer[BitMap]): Unit = {
-      bitMaps.foreach(bitMap => this.nodes.append(Node(bitMap.size)))
+    def extend(biMaps: ArrayBuffer[BiMap]): Unit = {
+      biMaps.foreach(biMap => this.nodes.append(Node(biMap.size)))
     }
 
     def translateOffset(pStride: ArrayBuffer[Int],
@@ -131,22 +131,22 @@ class BayesianNetwork {
   }
 
 
-  var classDict = BitMap.empty
-  var valueDict = new ArrayBuffer[BitMap]
+  var classDict = BiMap.empty
+  var valueDict = new ArrayBuffer[BiMap]
   var name: String = "Unnamed"
   var graph: Graph = new Graph
 
   def process_declaration(xml: Elem) : Unit = {
     val nodes = (xml \ "declare" \ "node")
-    var valueDict = new ArrayBuffer[BitMap]
-    val classDict = BitMap.empty()
+    var valueDict = new ArrayBuffer[BiMap]
+    val classDict = BiMap.empty()
     for ((node, i) <- nodes.zipWithIndex)  {
       val text = (node \ "name").head.text
-      val bitMap = BitMap.empty()
+      val biMap = BiMap.empty()
       for ((value, j)  <- (node.head \ "values" \ "value").toArray.zipWithIndex) {
-        bitMap.put(value.text, j)
+        biMap.put(value.text, j)
       }
-      valueDict.append(bitMap)
+      valueDict.append(biMap)
       classDict.put(text, i)
     }
     this.valueDict = valueDict
